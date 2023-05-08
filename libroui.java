@@ -9,6 +9,9 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 
 public class libroui extends JFrame {
@@ -78,12 +81,26 @@ public class libroui extends JFrame {
 		contentPane.add(txt3);
 		txt3.setColumns(10);
 		
-		JButton btnNewButton = new JButton("New button");
+		JButton btnNewButton = new JButton("Agregar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				libro.setAutor(txt1.getText());
-				libro.setEditorial(txt2.getText());
-				libro.setNombre(txt3.getText());
+				try {
+					BufferedWriter out = new BufferedWriter(new FileWriter("datos.txt"));
+					String nombre = txt1.getText();
+					for(int i=0; i< nombre.length(); i++) {
+					   out.write(nombre.charAt(i));
+					}
+					nombre = txt1.getText();
+					out.newLine();
+				
+					out.write(nombre);
+					out.close();
+					} catch (IOException e1) {
+					 //TODO Auto-generated catch block
+					System.out.println(e1.getMessage());
+				    e1.printStackTrace();
+				 }
+				
 			}
 		});
 		btnNewButton.setBounds(153, 207, 77, 19);
