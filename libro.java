@@ -1,4 +1,4 @@
-
+//package ada2archivos;
 
 public class libro {
    private String autor;
@@ -30,5 +30,5 @@ public String getNombre() {
 }
 public void setNombre(String nombre) {
 	this.nombre = nombre;
-}
+}  
 }
