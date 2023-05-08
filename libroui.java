@@ -1,4 +1,4 @@
-
+package ada2archivos;
 
 import java.awt.EventQueue;
 
@@ -6,10 +6,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 
 public class libroui extends JFrame {
@@ -49,7 +52,7 @@ public class libroui extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel(" Libros");
-		lblNewLabel.setBounds(205, 10, 25, 11);
+		lblNewLabel.setBounds(168, 10, 62, 11);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel(" Autor");
@@ -62,7 +65,7 @@ public class libroui extends JFrame {
 		txt1.setColumns(10);
 		
 		JLabel lblNewLabel_2 = new JLabel(" Editorial");
-		lblNewLabel_2.setBounds(89, 86, 37, 11);
+		lblNewLabel_2.setBounds(70, 90, 71, 11);
 		contentPane.add(lblNewLabel_2);
 		
 		txt2 = new JTextField();
@@ -79,26 +82,53 @@ public class libroui extends JFrame {
 		contentPane.add(txt3);
 		txt3.setColumns(10);
 		
-		JButton btnNewButton = new JButton("Guardar");
+		JButton btnNewButton = new JButton("Agregar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				libro.setAutor(txt1.getText());
-				libro.setEditorial(txt2.getText());
-				libro.setNombre(txt3.getText());
+				try {
+					BufferedWriter out = new BufferedWriter(new FileWriter("datos.txt"));
+					String nombre = txt1.getText();
+					for(int i=0; i< nombre.length(); i++) {
+					   out.write(nombre.charAt(i));
+					}
+					nombre = txt1.getText();
+					out.newLine();
+				
+					out.write(nombre);
+					out.close();
+					} catch (IOException e1) {
+					 //TODO Auto-generated catch block
+					System.out.println(e1.getMessage());
+				    e1.printStackTrace();
+				 }
+				
 			}
 		});
-		btnNewButton.setBounds(153, 207, 77, 19);
+		btnNewButton.setBounds(168, 176, 77, 19);
 		contentPane.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Leer");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showConfirmDialog(null, "autor: " + libro.getAutor());
-				JOptionPane.showConfirmDialog(null, "editorial: " + libro.getEditorial());
-				JOptionPane.showConfirmDialog(null, "nombre: " + libro.getNombre());
+				String texto = "";
+				try {
+					FileReader in = new FileReader ("datos"); 
+					String linea = txt1.getText();
+					int c = in.read();
+					while(c!=-1) {
+						texto = texto +(char)c;
+						c= in.read();
+					}
+					in.close();
+				
+				    } catch (IOException exepcion) {
+				    	System.out.println(exepcion.getMessage());
+					}
+				System.out.println(texto);
+				}
 			}
 		});
-		btnNewButton_1.setBounds(295, 205, 89, 23);
+		btnNewButton_1.setBounds(156, 213, 89, 23);
 		contentPane.add(btnNewButton_1);
 	}
 }
